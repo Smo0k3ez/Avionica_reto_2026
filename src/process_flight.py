@@ -73,3 +73,48 @@ print("Campos vacios descartados:", empty_records)
 print("Registros no numericos:", error_records)
 print("Registros con columnas faltantes:", missing_columns)
 print("Total descartados:", total_discarded)
+
+# ==========================================
+# FILTROS DE MEDIA MOVIL
+# ==========================================
+
+def moving_average(data, window):
+
+    filtered = []
+
+    for i in range(len(data)):
+
+        start = max(0, i - window + 1)
+
+        total = 0
+
+        for j in range(start, i + 1):
+            total += data[j]
+
+        average = total / (i - start + 1)
+
+        filtered.append(average)
+
+    return filtered
+
+
+# Aplicar filtros N=5 y N=15
+
+altitude_filtered_5 = moving_average(altitude, 5)
+
+altitude_filtered_15 = moving_average(altitude, 15)
+
+
+# ==========================================
+# RESUMEN DE FILTRADO
+# ==========================================
+
+print("\nFILTROS DE MEDIA MOVIL")
+print("--------------------------------")
+
+print("Muestras filtradas N=5:", len(altitude_filtered_5))
+print("Muestras filtradas N=15:", len(altitude_filtered_15))
+
+print("Altitud original:", altitude[50])
+print("Altitud filtrada N=5:", round(altitude_filtered_5[50], 3))
+print("Altitud filtrada N=15:", round(altitude_filtered_15[50], 3))
