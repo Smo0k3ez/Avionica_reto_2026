@@ -314,4 +314,46 @@ with open("flight_processed.csv", "w", newline="") as file:
         ])
 
 print("\nArchivo generado: flight_processed.csv")
+# GENERACION DE GRAFICAS
+
+import matplotlib.pyplot as plt
+
+time_seconds = [t / 1000 for t in time_ms]
+
+# Grafica de altitud
+plt.figure(figsize=(10, 5))
+plt.plot(time_seconds, altitude, label="Altitud original")
+plt.plot(time_seconds, altitude_filtered_15, label="Altitud filtrada N=15")
+
+if takeoff_index is not None:
+    plt.axvline(time_seconds[takeoff_index], color="green", linestyle="--", label="Despegue")
+
+if apogee_index is not None:
+    plt.axvline(time_seconds[apogee_index], color="red", linestyle="--", label="Apogeo")
+
+if landing_index is not None:
+    plt.axvline(time_seconds[landing_index], color="purple", linestyle="--", label="Aterrizaje")
+
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Altitud (m)")
+plt.title("Altitud vs Tiempo")
+plt.legend()
+plt.grid()
+plt.savefig("altitude_plot.png")
+plt.close()
+
+# Grafica de velocidad vertical
+plt.figure(figsize=(10, 5))
+plt.plot(time_seconds, vertical_velocity_raw, label="Velocidad original")
+plt.plot(time_seconds, vertical_velocity_15, label="Velocidad filtrada N=15")
+
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Velocidad vertical (m/s)")
+plt.title("Velocidad vertical vs Tiempo")
+plt.legend()
+plt.grid()
+plt.savefig("velocity_plot.png")
+plt.close()
+
+print("Graficas generadas: altitude_plot.png y velocity_plot.png")
 
