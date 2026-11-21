@@ -177,3 +177,75 @@ print("Velocidad original:", round(vertical_velocity_raw[50], 3), "m/s")
 print("Velocidad N=5:", round(vertical_velocity_5[50], 3), "m/s")
 print("Velocidad N=15:", round(vertical_velocity_15[50], 3), "m/s")
 
+# ==========================================
+# DETECCION DE EVENTOS DEL VUELO
+# ==========================================
+
+# DETECCION DE DESPEGUE
+
+takeoff_index = None
+
+for i in range(len(accel_z)):
+
+    if accel_z[i] > 20.0:
+        takeoff_index = i
+        break
+
+
+# DETECCION DE APOGEO
+
+apogee_index = 0
+
+for i in range(1, len(altitude_filtered_15)):
+
+    if altitude_filtered_15[i] > altitude_filtered_15[apogee_index]:
+        apogee_index = i
+
+
+# DETECCION DE ATERRIZAJE
+
+landing_index = None
+
+for i in range(apogee_index + 1, len(altitude)):
+
+    if (
+        altitude_filtered_15[i] <= 2.0
+        and abs(vertical_velocity_15[i]) <= 1.0
+    ):
+
+        if (
+            i + 2 < len(altitude)
+            and altitude_filtered_15[i + 1] <= 2.0
+            and abs(vertical_velocity_15[i + 1]) <= 1.0
+            and altitude_filtered_15[i + 2] <= 2.0
+            and abs(vertical_velocity_15[i + 2]) <= 1.0
+        ):
+
+            landing_index = i
+            break
+
+
+# ==========================================
+# RESUMEN DE EVENTOS
+# ==========================================
+
+print("\nEVENTOS DEL VUELO")
+print("--------------------------------")
+
+if takeoff_index is not None:
+    print("Despegue:", time_ms[takeoff_index] / 1000, "s")
+else:
+    print("Despegue: No detectado")
+
+print("Apogeo:", time_ms[apogee_index] / 1000, "s")
+print(
+    "Altitud maxima:",
+    round(altitude_filtered_15[apogee_index], 3),
+    "m"
+)
+
+if landing_index is not None:
+    print("Aterrizaje:", time_ms[landing_index] / 1000, "s")
+else:
+    print("Aterrizaje: No detectado")
+
