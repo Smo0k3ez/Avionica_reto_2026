@@ -285,4 +285,33 @@ if takeoff_index is not None and landing_index is not None:
         round(total_flight_time, 2),
         "s"
     )
+# EXPORTACION DE DATOS PROCESADOS
+
+import csv
+
+with open("flight_processed.csv", "w", newline="") as file:
+    writer = csv.writer(file)
+
+    writer.writerow([
+        "time_ms",
+        "altitude",
+        "altitude_filtered_5",
+        "altitude_filtered_15",
+        "vertical_velocity_raw",
+        "vertical_velocity_5",
+        "vertical_velocity_15"
+    ])
+
+    for i in range(len(time_ms)):
+        writer.writerow([
+            time_ms[i],
+            altitude[i],
+            altitude_filtered_5[i],
+            altitude_filtered_15[i],
+            vertical_velocity_raw[i],
+            vertical_velocity_5[i],
+            vertical_velocity_15[i]
+        ])
+
+print("\nArchivo generado: flight_processed.csv")
 
