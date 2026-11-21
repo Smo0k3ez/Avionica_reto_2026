@@ -247,16 +247,3 @@ if landing_index is not None:
 else:
     print("Aterrizaje: No detectado")
 
-#==================================================
-#prueba  
-
-print("\nCOMPARACION DE APOGEO")
-
-print("Apogeo original:",
-      time_ms[altitude.index(max(altitude))] / 1000, "s")
-
-print("Apogeo N=5:",
-      time_ms[altitude_filtered_5.index(max(altitude_filtered_5))] / 1000, "s")
-
-print("Apogeo N=15:",
-      time_ms[apogee_index] / 1000, "s")
