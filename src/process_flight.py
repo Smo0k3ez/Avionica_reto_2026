@@ -246,3 +246,43 @@ if landing_index is not None:
 else:
     print("Aterrizaje: No detectado")
 
+# METRICAS ADICIONALES DEL VUELO
+
+print("\nMETRICAS DEL VUELO")
+
+# Velocidad maxima de ascenso
+if takeoff_index is not None and apogee_index is not None:
+    ascent_speeds = vertical_velocity_15[takeoff_index:apogee_index + 1]
+
+    print(
+        "Velocidad maxima de ascenso:",
+        round(max(ascent_speeds), 3),
+        "m/s"
+    )
+
+# Velocidad promedio de descenso
+if apogee_index is not None and landing_index is not None:
+    descent_speeds = [
+        abs(v) for v in vertical_velocity_15[apogee_index:landing_index + 1]
+        if v < 0
+    ]
+
+    if descent_speeds:
+        print(
+            "Velocidad promedio de descenso:",
+            round(sum(descent_speeds) / len(descent_speeds), 3),
+            "m/s"
+        )
+
+# Tiempo total de vuelo
+if takeoff_index is not None and landing_index is not None:
+    total_flight_time = (
+        time_ms[landing_index] - time_ms[takeoff_index]
+    ) / 1000
+
+    print(
+        "Tiempo total de vuelo:",
+        round(total_flight_time, 2),
+        "s"
+    )
+
