@@ -16,10 +16,11 @@ Avionica_reto_2026/
 │   ├── generate_flight.py
 │   └── process_flight.py
 │
-├── flight_log.csv
-└── README.md
+├── README.md
+├── altitude_plot.png
+└── velocity_plot.png
 
-"flight_log.csv" se genera al ejecutar el programa generador.
+Los archivos CSV se generan durante la ejecución de los programas.
 
 3. Componentes
 
@@ -32,22 +33,28 @@ Genera datos simulados de vuelo, incluyendo:
 - Aceleración en el eje Z.
 - Temperatura.
 
-Los datos se guardan en un archivo CSV llamado "flight_log.csv".
+Los datos se guardan en "flight_log.csv".
 
 process_flight.py
 
-Procesa el archivo CSV mediante las siguientes operaciones:
+Procesa el archivo CSV mediante:
 
 - Lectura y validación de registros.
 - Identificación y descarte de datos inválidos.
 - Aplicación de filtros de media móvil de 5 y 15 muestras.
 - Cálculo de velocidad vertical.
-- Detección de eventos de vuelo: despegue, apogeo y aterrizaje.
+- Detección de despegue, apogeo y aterrizaje.
+- Cálculo de métricas del vuelo.
+- Exportación de datos procesados y generación de gráficas.
 
 4. Requisitos
 
 - Python 3.
-- No requiere bibliotecas externas.
+- Matplotlib.
+
+Instalar Matplotlib mediante:
+
+pip install matplotlib
 
 5. Ejecución
 
@@ -55,24 +62,19 @@ Desde el directorio principal del repositorio, ejecutar primero:
 
 python src/generate_flight.py
 
-Después, ejecutar:
+Después ejecutar:
 
 python src/process_flight.py
 
-El primer programa genera el archivo "flight_log.csv" y el segundo lo utiliza para realizar el procesamiento.
+6. Resultados generados
 
-6. Resultado esperado
+- "flight_log.csv": registro original de telemetría.
+- "flight_processed.csv": datos procesados y filtrados.
+- "altitude_plot.png": gráfica de altitud respecto al tiempo.
+- "velocity_plot.png": gráfica de velocidad vertical respecto al tiempo.
 
-El procesamiento presenta un resumen con:
-
-- Cantidad de registros válidos y descartados.
-- Resultados de los filtros de media móvil.
-- Velocidades verticales calculadas.
-- Tiempos de detección de despegue, apogeo y aterrizaje.
-- Altitud máxima registrada.
-
-Los resultados corresponden a una simulación de vuelo y pueden variar si se modifican los parámetros de generación.
+El procesamiento también presenta un resumen de registros válidos y descartados, filtros aplicados, velocidades calculadas y eventos detectados.
 
 7. Alcance
 
-Esta etapa corresponde al desarrollo de un sistema inicial de generación y procesamiento de telemetría de vuelo. Los resultados permiten evaluar el funcionamiento de los procedimientos de depuración, filtrado y detección de eventos.
+Esta etapa corresponde al desarrollo de un sistema inicial de generación y procesamiento de telemetría de vuelo. Los resultados permiten evaluar el funcionamiento de los procedimientos de depuración, filtrado, cálculo de velocidades y detección de eventos.
