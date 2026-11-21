@@ -221,7 +221,31 @@ for i in range(apogee_index + 1, len(altitude)):
 
             landing_index = i
             break
+# COMPARACION DE DETECCION DE ATERRIZAJE
 
+landing_raw_index = None
+
+for i in range(apogee_index + 1, len(altitude) - 2):
+
+    if (
+        altitude[i] <= 2.0
+        and abs(vertical_velocity_raw[i]) <= 1.0
+        and altitude[i + 1] <= 2.0
+        and abs(vertical_velocity_raw[i + 1]) <= 1.0
+        and altitude[i + 2] <= 2.0
+        and abs(vertical_velocity_raw[i + 2]) <= 1.0
+    ):
+        landing_raw_index = i
+        break
+
+if landing_raw_index is not None:
+    print(
+        "Aterrizaje con datos originales:",
+        time_ms[landing_raw_index] / 1000,
+        "s"
+    )
+else:
+    print("Aterrizaje con datos originales: No detectado")
 
 # ==========================================
 # RESUMEN DE EVENTOS
