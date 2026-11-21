@@ -49,10 +49,11 @@ Procesa el archivo CSV mediante:
 
 4. Requisitos
 
-- Python 3.
-- Matplotlib.
+-Python 3.13.18
 
-Instalar Matplotlib mediante:
+-Matplotlib 3.10.0
+
+Instalación de Matplotlib:
 
 pip install matplotlib
 
