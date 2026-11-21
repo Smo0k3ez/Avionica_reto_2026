@@ -1,0 +1,106 @@
+
+\documentclass[10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{parskip}
+
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+
+\title{\textbf{Sistema de generación y procesamiento de datos de vuelo}}
+\author{Reto de Reclutamiento -- División de Aviónica\\
+AAIAQ}
+\date{Noviembre de 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción y objetivo}
+
+El presente proyecto desarrolla un sistema básico de generación y procesamiento de telemetría de vuelo mediante datos simulados.
+
+El objetivo es implementar procedimientos de generación, depuración, filtrado y análisis de datos para identificar eventos relevantes del vuelo, como el despegue, el apogeo y el aterrizaje.
+
+\section{Metodología}
+
+El sistema se compone de dos programas principales:
+
+\textbf{Generación de datos:} el programa \texttt{generate\_flight.py} produce un registro simulado de telemetría a una frecuencia de 10 Hz, equivalente a un intervalo de 100 ms entre muestras. Las variables registradas incluyen tiempo, altitud, aceleración en el eje Z y temperatura. También incorpora ruido y registros corruptos para simular condiciones de medición.
+
+\textbf{Procesamiento:} el programa \texttt{process\_flight.py} lee el archivo CSV generado, valida los registros y descarta aquellos que contienen datos inválidos. Posteriormente aplica filtros de media móvil de 5 y 15 muestras y calcula la velocidad vertical mediante diferencias entre muestras consecutivas:
+
+\[
+v_z(i)=\frac{h(i)-h(i-1)}{t(i)-t(i-1)}
+\]
+
+donde $h$ representa la altitud y $t$ el tiempo en segundos.
+
+\section{Detección de eventos y métricas}
+
+Se implementaron criterios de detección para los principales eventos del vuelo:
+
+\begin{itemize}
+    \item \textbf{Despegue:} identificado mediante un umbral de aceleración en el eje Z.
+    \item \textbf{Apogeo:} corresponde a la muestra con mayor altitud registrada.
+    \item \textbf{Aterrizaje:} identificado mediante condiciones de baja altitud y velocidad vertical reducida, sostenidas durante varias muestras.
+\end{itemize}
+
+También se calcularon la velocidad máxima de ascenso, la velocidad promedio de descenso y el tiempo total de vuelo.
+
+\section{Resultados}
+
+La simulación generó 959 muestras. Durante la depuración se descartaron 3 registros corruptos, conservando 956 registros válidos.
+
+Los resultados obtenidos fueron:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Parámetro} & \textbf{Resultado} \\
+\hline
+Frecuencia de muestreo & 10 Hz \\
+Registros válidos & 956 \\
+Registros descartados & 3 \\
+Tiempo de despegue & 2.0 s \\
+Tiempo de apogeo & 12.6 s \\
+Altitud máxima & 481.459 m \\
+Tiempo de aterrizaje & 94.0 s \\
+Velocidad máxima de ascenso & 89.338 m/s \\
+Velocidad promedio de descenso & 5.9 m/s \\
+Tiempo total de vuelo & 92.0 s \\
+\hline
+\end{tabular}
+\caption{Resumen de resultados de la simulación.}
+\end{table}
+
+Las siguientes gráficas muestran el comportamiento de la altitud y la velocidad vertical durante el vuelo.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{altitude_plot.png}
+\caption{Altitud respecto al tiempo, incluyendo eventos detectados.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{velocity_plot.png}
+\caption{Velocidad vertical original y filtrada.}
+\end{figure}
+
+\section{Conclusiones}
+
+El sistema desarrollado permitió generar y procesar datos simulados de telemetría, eliminar registros inválidos, aplicar filtros de media móvil y calcular velocidades verticales.
+
+Asimismo, se implementó la detección de eventos principales y la generación de representaciones gráficas para facilitar el análisis del comportamiento del vuelo.
+
+Los resultados demuestran el funcionamiento de una primera implementación de procesamiento de telemetría. Al tratarse de datos simulados, los métodos y umbrales utilizados pueden requerir ajustes para su aplicación con sensores y registros de vuelos reales.
+
+\end{document}
