@@ -256,7 +256,17 @@ for i in range(landing_index - 3, landing_index + 4):
         "Velocidad original:", round(vertical_velocity_raw[i], 3),
         "Velocidad filtrada:", round(vertical_velocity_15[i], 3)
     )
+#datos alrededor del aterrizaje 
+print("\nDATOS ALREDEDOR DEL ATERRIZAJE")
 
+for i in range(landing_index - 3, landing_index + 4):
+    print(
+        "Tiempo:", time_ms[i] / 1000,
+        "Altitud original:", round(altitude[i], 3),
+        "Altitud filtrada:", round(altitude_filtered_15[i], 3),
+        "Velocidad original:", round(vertical_velocity_raw[i], 3),
+        "Velocidad filtrada:", round(vertical_velocity_15[i], 3)
+    )
 # ==========================================
 # RESUMEN DE EVENTOS
 # ==========================================
