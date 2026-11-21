@@ -118,3 +118,62 @@ print("Muestras filtradas N=15:", len(altitude_filtered_15))
 print("Altitud original:", altitude[50])
 print("Altitud filtrada N=5:", round(altitude_filtered_5[50], 3))
 print("Altitud filtrada N=15:", round(altitude_filtered_15[50], 3))
+
+# ==========================================
+# CALCULO DE VELOCIDAD VERTICAL
+# ==========================================
+
+def calculate_vertical_velocity(altitude_data, time_data):
+
+    velocity = [0.0]
+
+    for i in range(1, len(altitude_data)):
+
+        delta_altitude = (
+            altitude_data[i] - altitude_data[i - 1]
+        )
+
+        delta_time = (
+            time_data[i] - time_data[i - 1]
+        ) / 1000
+
+        if delta_time > 0:
+            vertical_speed = delta_altitude / delta_time
+        else:
+            vertical_speed = 0.0
+
+        velocity.append(vertical_speed)
+
+    return velocity
+
+
+# Calcular velocidades verticales
+
+vertical_velocity_raw = calculate_vertical_velocity(
+    altitude, time_ms
+)
+
+vertical_velocity_5 = calculate_vertical_velocity(
+    altitude_filtered_5, time_ms
+)
+
+vertical_velocity_15 = calculate_vertical_velocity(
+    altitude_filtered_15, time_ms
+)
+
+
+# ==========================================
+# RESUMEN DE VELOCIDADES
+# ==========================================
+
+print("\nVELOCIDADES VERTICALES")
+print("--------------------------------")
+
+print("Velocidades originales:", len(vertical_velocity_raw))
+print("Velocidades N=5:", len(vertical_velocity_5))
+print("Velocidades N=15:", len(vertical_velocity_15))
+
+print("Velocidad original:", round(vertical_velocity_raw[50], 3), "m/s")
+print("Velocidad N=5:", round(vertical_velocity_5[50], 3), "m/s")
+print("Velocidad N=15:", round(vertical_velocity_15[50], 3), "m/s")
+
