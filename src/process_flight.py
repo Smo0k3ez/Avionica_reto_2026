@@ -191,14 +191,12 @@ for i in range(len(accel_z)):
         takeoff_index = i
         break
 
-
 # DETECCION DE APOGEO
 
 apogee_index = 0
 
-for i in range(1, len(altitude_filtered_15)):
-
-    if altitude_filtered_15[i] > altitude_filtered_15[apogee_index]:
+for i in range(1, len(altitude)):
+    if altitude[i] > altitude[apogee_index]:
         apogee_index = i
 
 
@@ -240,7 +238,7 @@ else:
 print("Apogeo:", time_ms[apogee_index] / 1000, "s")
 print(
     "Altitud maxima:",
-    round(altitude_filtered_15[apogee_index], 3),
+    round(altitude[apogee_index], 3),
     "m"
 )
 
